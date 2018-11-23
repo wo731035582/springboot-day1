@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.ssm.dao.AuctionDao">
+	<resultMap type="com.baizhi.ssm.entity.Auction" id="auctmap">
+		<id column="auction_id" property="id"/>
+		<result column="auction_name" property="name"/>
+		<result column="auction_start_price" property="startPrice"/>
+		<result column="auction_upset" property="upset"/>
+		<result column="auction_start_time" property="startTime"/>
+		<result column="auction_end_time" property="endTime"/>
+		<result column="auction_pic" property="oic"/>
+		<result column="auction_desc" property="desc"/>
+	</resultMap>
+
+	<select id="getAll" resultMap="auctmap">
+	select * from auction 
+	<where>
+	<if test="name!=null and name!=''">
+	auction_name like '%'||#{name}||'%'
+	</if>
+	<if test="desc!=null and desc!=''">
+	and	auction_desc like '%'#{desc}'%'
+	</if>
+	<if test="startTime!=null">
+	and auction_start_time <![CDATA[>=]]> #{startTime}
+	</if>
+	<if test="endTime!=null">
+	and auction_end_time <![CDATA[<=]]> #{endTime}
+	</if>
+	<if test="startPrice!=null">
+	and auction_start_price=#{startPrice} 
+	</if>
+	</where>
+	</select>
+	
+	<insert id="add">
+		insert into auction values(0,#{name},#{startPrice},#{upset},#{startTime},#{endTime},#{oic},#{desc})
+	</insert>
+	
+	<delete id="delete">
+	delete from auction where auction_id=#{id}
+	</delete>
+	
+	<update id="update">
+	update auction set auction_name=#{name},auction_start_price=#{startPrice},auction_upset=#{upset},auction_start_time=#{startTime},
+	auction_end_time=#{endTime},auction_pic=#{oic},auction_desc=#{desc} where auction_id=#{id}
+	</update>
+	
+	<select id="getOne" resultMap="auctmap">
+		select * from auction where  auction_id=#{id}
+	</select>
+</mapper>

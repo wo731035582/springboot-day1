@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.ssm.dao.UserDao">
+	<resultMap type="com.baizhi.ssm.entity.User" id="map">
+		<id column="user_id" property="id"/>
+		<result column="user_name" property="name"/>
+		<result column="user_password" property="pwd"/>
+		<result column="user_is_admin" property="is_admin"/>
+	</resultMap>
+
+	<select id="login" resultMap="map">
+		select * from auction_user where user_name=#{name} and user_password=#{pwd}
+	</select>
+	
+	<insert id="reg">
+	insert into auction_user values(0,#{name},#{pwd},#{card_no},#{tel},#{address},#{post_number},0,'dd','zz')
+	</insert>
+</mapper>
